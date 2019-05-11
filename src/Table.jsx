@@ -15,8 +15,8 @@ export type Header = {
 };
 
 export type Props = {
-  className: string,
   data: Data,
+  className?: string,
   tableTag: ?ElementType,
   trTag: ?ElementType,
   tdTag: ?ElementType,
@@ -24,15 +24,15 @@ export type Props = {
   theadTag: ?ElementType,
   tbodyTag: ?ElementType,
   headers?: Header[],
-  renderSelector: (selected: boolean) => ?Node,
-  onHeaderClick: (header: string, position: number) => void,
-  onDataClick: (
+  renderSelector?: (selected: boolean) => ?Node,
+  onHeaderClick?: (header: string, position: number) => void,
+  onDataClick?: (
     column: number,
     row: number,
     header: string,
     value: string
   ) => void,
-  onRowSelect: (row: Row, position: number) => void
+  onRowSelect?: (row: Row, position: number) => void
 };
 
 export default function(props: Props) {
@@ -45,6 +45,10 @@ export default function(props: Props) {
 
   const headers = props.headers || sniffHeaders(props.data);
 
+  const onHeaderClick = props.onHeaderClick || noop;
+  const onDataClick = props.onDataClick || noop;
+  const onRowSelect = props.onRowSelect || noop;
+
   return (
     <Table className={props.className}>
       <Thead>
@@ -54,7 +58,7 @@ export default function(props: Props) {
               className="header"
               key={`${i}${header.name}`}
               tid="header"
-              onClick={() => props.onHeaderClick(header.name, i)}
+              onClick={() => onHeaderClick(header.name, i)}
             >
               {header.render ? header.render(header.name) : header.name}
             </Th>
@@ -66,15 +70,15 @@ export default function(props: Props) {
           <Tr
             className="dataRow"
             key={i}
-            {...(props.renderSelector
+            {...(props.renderSelector && props.onRowSelect
               ? {}
               : {
                   tid: 'rowSelector',
-                  onClick: () => props.onRowSelect(row, i)
+                  onClick: () => onRowSelect(row, i)
                 })}
           >
             {props.renderSelector && (
-              <Td tid="rowSelector" onClick={() => props.onRowSelect(row, i)}>
+              <Td tid="rowSelector" onClick={() => onRowSelect(row, i)}>
                 {props.renderSelector(!!row.selected)}
               </Td>
             )}
@@ -83,9 +87,7 @@ export default function(props: Props) {
                 className="data"
                 key={`${i}${header.name}`}
                 tid="data"
-                onClick={() =>
-                  props.onDataClick(j, i, header.name, row[header.name])
-                }
+                onClick={() => onDataClick(j, i, header.name, row[header.name])}
               >
                 {row.renderCell
                   ? row.renderCell(row, header.name)
@@ -104,8 +106,10 @@ function sniffHeaders(data: Data): Header[] {
     ...data
       .reduce((set: Set<string>, row: Row) => {
         Object.keys(row)
-          .filter(row => row !== 'renderCell' && row !== 'selected')
-          .forEach(k => set.add(k));
+          .filter(
+            (column: string) => column !== 'renderCell' && column !== 'selected'
+          )
+          .forEach((column: string) => set.add(column));
         return set;
       }, new Set())
       .values()
@@ -113,3 +117,5 @@ function sniffHeaders(data: Data): Header[] {
     name
   }));
 }
+
+function noop(..._args: any[]) {}
