@@ -6,11 +6,11 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.6"
   },
-  "main": "lib/Table.jsx",
+  "main": "lib",
   "scripts": {
     "build:clean": "shx rm -rf lib && mkdir lib",
-    "build:flow": "flow-copy-source -v -i '**test**' -i '**setupTests**' src lib",
-    "build:transpile": "cross-env NODE_ENV=production babel src/Table.jsx --out-file lib/Table.jsx",
+    "build:flow": "flow-copy-source -v -i '**test**' -i '**setupTests**' src lib && shx mv lib/Table.jsx.flow lib/index.js.flow",
+    "build:transpile": "cross-env NODE_ENV=production babel src/Table.jsx --out-file lib/index.js",
     "build": "yarn build:clean && yarn build:transpile && yarn build:flow",
     "test": "jest",
     "flow": "flow stop && flow start && flow"
