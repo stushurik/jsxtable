@@ -2,14 +2,14 @@
   "name": "conductor",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.8.2"
+  "peerDependencies": {
+    "react": "^16.8.2",
+    "react-dom": "^16.8.6"
   },
   "scripts": {
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "types:install": "flow-typed install --ignoreDeps dev",
     "flow": "flow stop && flow start && flow"
   },
   "husky": {
@@ -36,6 +36,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "react": "^16.8.2",
+    "react-dom": "^16.8.6",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.0",
     "eslint-plugin-jest": "^22.3.0",
