@@ -7,3 +7,5 @@
 .npmignore
 yarn.lock
 src
+config
+.babelrc
