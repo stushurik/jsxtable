@@ -1,6 +1,7 @@
 {
-  "name": "rtable",
-  "version": "0.0.0",
+  "name": "jsxtable",
+  "version": "0.0.1",
+  "license": "MIT",
   "peerDependencies": {
     "react": "^16.8.2",
     "react-dom": "^16.8.6"
@@ -8,10 +9,10 @@
   "main": "lib/Table.jsx",
   "scripts": {
     "build:clean": "shx rm -rf lib && mkdir lib",
-    "build:removeTypes": "flow-remove-types -p src/Table.jsx > lib/Table.jsx",
     "build:flow": "flow-copy-source -v -i '**test**' -i '**setupTests**' src lib",
-    "build": "yarn build:clean && yarn build:removeTypes && yarn build:flow",
-    "test": "react-scripts test",
+    "build:transpile": "cross-env NODE_ENV=production babel src/Table.jsx --out-file lib/Table.jsx",
+    "build": "yarn build:clean && yarn build:transpile && yarn build:flow",
+    "test": "jest",
     "flow": "flow stop && flow start && flow"
   },
   "husky": {
@@ -23,6 +24,14 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --single-quote --write",
       "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "./config/jest/babelTransform.js"
+    },
+    "setupFiles": [
+      "./config/jest/setupTests.js"
     ]
   },
   "eslintConfig": {
@@ -38,6 +47,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-jest": "^24.8.0",
+    "babel-preset-react-app": "^9.0.0",
+    "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.0",
     "eslint-plugin-jest": "^22.3.0",
