@@ -1,0 +1,52 @@
+{
+  "name": "conductor",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.2"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "types:install": "flow-typed install --ignoreDeps dev",
+    "flow": "flow stop && flow start && flow"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "react-app"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.0",
+    "eslint-plugin-jest": "^22.3.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "flow-bin": "^0.93.0",
+    "flow-typed": "^2.5.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.4",
+    "prettier": "1.16.4",
+    "pretty-quick": "^1.10.0",
+    "react-scripts": "^3.0.1",
+    "react-test-renderer": "^16.8.6"
+  }
+}

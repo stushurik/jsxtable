@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "plugin:flowtype/recommended",
+    "plugin:jest/recommended"
+  ],
+  "plugins": ["prettier", "flowtype", "jest"],
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
+}

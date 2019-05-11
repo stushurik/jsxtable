@@ -1,0 +1,17 @@
+[ignore]
+.*/**/*.json
+node_modules
+
+[include]
+src/**/*.js
+
+[libs]
+flow-typed/npm
+./typeDefs.js
+
+[lints]
+
+[options]
+module.name_mapper='.*\(.gql\)' -> 'empty/object'
+
+[strict]
