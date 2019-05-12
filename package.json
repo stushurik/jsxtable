@@ -15,7 +15,7 @@
     "build:clean": "shx rm -rf lib && mkdir lib",
     "build:flow": "flow-copy-source -v -i '**test**' -i '**setupTests**' src lib && shx mv lib/Table.jsx.flow lib/index.js.flow",
     "build:transpile": "cross-env NODE_ENV=production babel src/Table.jsx --out-file lib/index.js",
-    "build": "yarn build:clean && yarn build:transpile && yarn build:flow",
+    "build": "yarn build:clean && yarn build:transpile && yarn build:flow && shx cp src/index.d.ts lib/index.d.ts",
     "test": "jest",
     "flow": "flow stop && flow start && flow"
   },

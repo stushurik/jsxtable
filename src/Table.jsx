@@ -36,7 +36,7 @@ export type Props = {
   onRowSelect?: (row: Row, position: number) => void
 };
 
-export default function(props: Props) {
+export default function(props: Props): Node {
   const Table = props.tableTag || 'table';
   const Thead = props.theadTag || 'thead';
   const Tbody = props.tbodyTag || 'tbody';

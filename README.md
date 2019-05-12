@@ -6,7 +6,7 @@ Simple react table component with ability to handles clicks on headers,data cell
 
 - allows to override table tags so that it is possible to use different ui toolkits (like react-bootsrap) or by default html table tags
 - compatible with style components
-- flow types included
+- flow && ts types included
 - can compute columns names from data or allow to provide columns order and names
 - allows to render custom row cells and headers
 - allows interact with table: select row, click on header and cells
