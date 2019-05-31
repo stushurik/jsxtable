@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type ElementType, type Node, type ChildrenArray } from 'react';
+import React, { type ElementType, type Node } from 'react';
 
 export type Row = {
   [prop: string]: string,
@@ -25,7 +25,7 @@ export type Props = {
   theadTag?: ?ElementType,
   tbodyTag?: ?ElementType,
   headers?: Header[],
-  children?: ChildrenArray<Node>,
+  children?: (props: { data: Data, headers?: Header[] }) => ?Node,
   renderSelector?: (selected: boolean) => ?Node,
   onHeaderClick?: (header: string, position: number) => void,
   onDataClick?: (
@@ -37,7 +37,7 @@ export type Props = {
   onRowSelect?: (row: Row, position: number) => void
 };
 
-export default function(props: Props): Node {
+export default function T(props: Props): Node {
   const Table = props.tableTag || 'table';
   const Thead = props.theadTag || 'thead';
   const Tbody = props.tbodyTag || 'tbody';
@@ -53,9 +53,7 @@ export default function(props: Props): Node {
 
   return (
     <Table className={props.className}>
-      {React.Children.count(props.children) > 0
-        ? props.children
-        : renderTableChildren()}
+      {props.children ? props.children(props) : renderTableChildren()}
     </Table>
   );
 
@@ -77,38 +75,39 @@ export default function(props: Props): Node {
           </Tr>
         </Thead>
         <Tbody>
-          {props.data.map((row: Row, i) => (
-            <Tr
-              className="dataRow"
-              key={i}
-              {...(props.renderSelector && props.onRowSelect
-                ? {}
-                : {
-                    tid: 'rowSelector',
-                    onClick: () => onRowSelect(row, i)
-                  })}
-            >
-              {props.renderSelector && (
-                <Td tid="rowSelector" onClick={() => onRowSelect(row, i)}>
-                  {props.renderSelector(!!row.selected)}
-                </Td>
-              )}
-              {headers.map((header, j) => (
-                <Td
-                  className="data"
-                  key={`${i}${header.name}`}
-                  tid="data"
-                  onClick={() =>
-                    onDataClick(i, j, header.name, row[header.name])
-                  }
-                >
-                  {row.renderCell
-                    ? row.renderCell(row, header.name)
-                    : row[header.name]}
-                </Td>
-              ))}
-            </Tr>
-          ))}
+          {props.data &&
+            props.data.map((row: Row, i) => (
+              <Tr
+                className="dataRow"
+                key={i}
+                {...(props.renderSelector && props.onRowSelect
+                  ? {}
+                  : {
+                      tid: 'rowSelector',
+                      onClick: () => onRowSelect(row, i)
+                    })}
+              >
+                {props.renderSelector && (
+                  <Td tid="rowSelector" onClick={() => onRowSelect(row, i)}>
+                    {props.renderSelector(!!row.selected)}
+                  </Td>
+                )}
+                {headers.map((header, j) => (
+                  <Td
+                    className="data"
+                    key={`${i}${header.name}`}
+                    tid="data"
+                    onClick={() =>
+                      onDataClick(i, j, header.name, row[header.name])
+                    }
+                  >
+                    {row.renderCell
+                      ? row.renderCell(row, header.name)
+                      : row[header.name]}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
         </Tbody>
       </React.Fragment>
     );

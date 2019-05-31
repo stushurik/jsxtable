@@ -20,6 +20,10 @@ export interface Props {
   theadTag?: Nullable<React.ElementType>;
   tbodyTag?: Nullable<React.ElementType>;
   headers?: Header[];
+  children?: (props: {
+    data: Data;
+    headers?: Header[];
+  }) => Nullable<React.ReactNode>;
   renderSelector?: (selected: boolean) => Nullable<React.ReactNode>;
   onHeaderClick?: (header: string, position: number) => void;
   onDataClick?: (

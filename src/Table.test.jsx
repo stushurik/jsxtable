@@ -170,9 +170,13 @@ describe('table', () => {
     const wrapper = renderer
       .create(
         <Table {...props}>
-          <div>
-            WE ARE THE <span>CHILDREN!</span>
-          </div>
+          {({ data, headers }) => (
+            <div>
+              WE ARE THE <span>CHILDREN!</span>
+              <p>{JSON.stringify(data)}</p>
+              <p>{JSON.stringify(headers)}</p>
+            </div>
+          )}
         </Table>
       )
       .toJSON();
