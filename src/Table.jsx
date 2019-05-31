@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type ElementType, type Node } from 'react';
+import React, { type ElementType, type Node, type ChildrenArray } from 'react';
 
 export type Row = {
   [prop: string]: string,
@@ -25,11 +25,12 @@ export type Props = {
   theadTag?: ?ElementType,
   tbodyTag?: ?ElementType,
   headers?: Header[],
+  children?: ChildrenArray<Node>,
   renderSelector?: (selected: boolean) => ?Node,
   onHeaderClick?: (header: string, position: number) => void,
   onDataClick?: (
-    column: number,
     row: number,
+    column: number,
     header: string,
     value: string
   ) => void,
@@ -52,54 +53,66 @@ export default function(props: Props): Node {
 
   return (
     <Table className={props.className}>
-      <Thead>
-        <Tr className="headerRow">
-          {headers.map((header, i) => (
-            <Th
-              className="header"
-              key={`${i}${header.name}`}
-              tid="header"
-              onClick={() => onHeaderClick(header.name, i)}
-            >
-              {header.render ? header.render(header.name) : header.name}
-            </Th>
-          ))}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {props.data.map((row: Row, i) => (
-          <Tr
-            className="dataRow"
-            key={i}
-            {...(props.renderSelector && props.onRowSelect
-              ? {}
-              : {
-                  tid: 'rowSelector',
-                  onClick: () => onRowSelect(row, i)
-                })}
-          >
-            {props.renderSelector && (
-              <Td tid="rowSelector" onClick={() => onRowSelect(row, i)}>
-                {props.renderSelector(!!row.selected)}
-              </Td>
-            )}
-            {headers.map((header, j) => (
-              <Td
-                className="data"
-                key={`${i}${header.name}`}
-                tid="data"
-                onClick={() => onDataClick(j, i, header.name, row[header.name])}
-              >
-                {row.renderCell
-                  ? row.renderCell(row, header.name)
-                  : row[header.name]}
-              </Td>
-            ))}
-          </Tr>
-        ))}
-      </Tbody>
+      {React.Children.count(props.children) > 0
+        ? props.children
+        : renderTableChildren()}
     </Table>
   );
+
+  function renderTableChildren() {
+    return (
+      <React.Fragment>
+        <Thead>
+          <Tr className="headerRow">
+            {headers.map((header, i) => (
+              <Th
+                className="header"
+                key={`${i}${header.name}`}
+                tid="header"
+                onClick={() => onHeaderClick(header.name, i)}
+              >
+                {header.render ? header.render(header.name) : header.name}
+              </Th>
+            ))}
+          </Tr>
+        </Thead>
+        <Tbody>
+          {props.data.map((row: Row, i) => (
+            <Tr
+              className="dataRow"
+              key={i}
+              {...(props.renderSelector && props.onRowSelect
+                ? {}
+                : {
+                    tid: 'rowSelector',
+                    onClick: () => onRowSelect(row, i)
+                  })}
+            >
+              {props.renderSelector && (
+                <Td tid="rowSelector" onClick={() => onRowSelect(row, i)}>
+                  {props.renderSelector(!!row.selected)}
+                </Td>
+              )}
+              {headers.map((header, j) => (
+                <Td
+                  className="data"
+                  key={`${i}${header.name}`}
+                  tid="data"
+                  onClick={() =>
+                    onDataClick(i, j, header.name, row[header.name])
+                  }
+                >
+                  {row.renderCell
+                    ? row.renderCell(row, header.name)
+                    : row[header.name]}
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </React.Fragment>
+    );
+  }
 }
 
 function sniffHeaders(data: Data): Header[] {

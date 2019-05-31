@@ -23,8 +23,8 @@ export interface Props {
   renderSelector?: (selected: boolean) => Nullable<React.ReactNode>;
   onHeaderClick?: (header: string, position: number) => void;
   onDataClick?: (
-    column: number,
     row: number,
+    column: number,
     header: string,
     value: string
   ) => void;

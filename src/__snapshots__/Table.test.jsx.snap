@@ -32,6 +32,8 @@ exports[`table should allow to render row selector 1`] = `
   <tbody>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -63,6 +65,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -94,6 +98,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -125,6 +131,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -156,6 +164,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -187,6 +197,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -220,6 +232,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -253,6 +267,8 @@ exports[`table should allow to render row selector 1`] = `
     </tr>
     <tr
       className="dataRow"
+      onClick={[Function]}
+      tid="rowSelector"
     >
       <td
         onClick={[Function]}
@@ -773,6 +789,17 @@ exports[`table should alow to render row with customization 1`] = `
       </td>
     </tr>
   </tbody>
+</table>
+`;
+
+exports[`table should render only children and ignore data and headers if childrens are present 1`] = `
+<table>
+  <div>
+    WE ARE THE 
+    <span>
+      CHILDREN!
+    </span>
+  </div>
 </table>
 `;
 

@@ -150,6 +150,35 @@ describe('table', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('should render only children and ignore data and headers if childrens are present', () => {
+    const data = [
+      { Name: 'Griffin Smith', Age: '18' },
+      { Age: '23', Name: 'Lee Salminen' },
+      { Age: '28', Position: 'Developer' },
+      { Name: 'Griffin Smith', Age: '18' },
+      { Age: '30', Name: 'Test Person' },
+      { Name: 'Another Test', Age: '26', Position: 'Developer' },
+      { Name: 'Third Test', Age: '19', Position: 'Salesperson' },
+      { Age: '23', Name: 'End of this Page', Position: 'CEO', selected: true }
+    ];
+
+    const props = {
+      data,
+      renderSelector: selected => <div selected={selected} />
+    };
+
+    const wrapper = renderer
+      .create(
+        <Table {...props}>
+          <div>
+            WE ARE THE <span>CHILDREN!</span>
+          </div>
+        </Table>
+      )
+      .toJSON();
+    expect(wrapper).toMatchSnapshot();
+  });
+
   describe('interaction', () => {
     let sut;
     let data;
@@ -191,7 +220,7 @@ describe('table', () => {
         .find('[tid="data"]')
         .last()
         .simulate('click');
-      expect(onDataClick).toHaveBeenCalledWith(2, 7, 'Position', 'CEO');
+      expect(onDataClick).toHaveBeenCalledWith(7, 2, 'Position', 'CEO');
     });
 
     it('should allow to select row', () => {
